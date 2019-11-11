@@ -1,12 +1,5 @@
 apps:
   - script   : ./bin/www
     name     : 'miniprogram'
-    instances: 4
+    instances: 2
     exec_mode: cluster
-  - script : ./worker.js
-    name   : 'worker'
-    watch  : true
-    env    :
-      NODE_ENV: development
-    env_production:
-      NODE_ENV: production
