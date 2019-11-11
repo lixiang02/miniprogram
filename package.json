@@ -1,6 +1,6 @@
 {
   "name": "mini-program",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "scripts": {
     "start": "node bin/www",
     "dev": "./node_modules/.bin/nodemon bin/www",
@@ -20,6 +20,10 @@
     "koa-views": "^6.2.0",
     "mongoose": "^5.7.4",
     "pug": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.mchz.com.cn/lixiang/private-test"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
