@@ -10,8 +10,8 @@ module.exports =  class Container {
     async getList() {
         return await this.model.find()
     }
-    async updateItem(params) {
-        return await this.model.findByIdAndUpdate(params.id, { money: params.money })
+    async updateItem({id, money, typeKey, desc, createTime}) {
+        return await this.model.findByIdAndUpdate(id, { money, typeKey, desc, createTime })
     }
     async deleteItem(params) {
         return this.model.deleteOne(params, { where: { id: params.id } })

@@ -3,7 +3,10 @@ const servers = require('../servers')
 const controllers = require('../controller')
 
 const dealParams = async function (ctx, next) {
-  ctx.params = Object.assign({}, ctx.body, ctx.query, ctx.params)
+  ctx.params = Object.assign({}, ctx.request.body, ctx.query, ctx.params)
+  if (typeof ctx.params.id === 'string' && Number(ctx.params.id) >= 0) {
+    ctx.params.id = Number(ctx.params.id)
+  }
   console.log('params -> ', ctx.params)
   return await next()
 }
@@ -26,8 +29,8 @@ router.get('/json', async (ctx, next) => {
 
 router.get('/db', servers.user.getOne)
 
-router.get('/account/:id', dealParams, controllers.account.getUserAccountsItem)
+router.get('/account/:id', dealParams, controllers.accounts.getUserAccountsItem)
 
-router.put('/account/:id', dealParams, controllers.account.updateUserAccountItem)
+router.put('/account/:id', dealParams, controllers.accounts.updateUserAccountItem)
 
 module.exports = router
