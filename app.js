@@ -5,7 +5,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-// require('./lib/mongodb')
+require('./lib/mongodb')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -31,6 +31,25 @@ app.use(async (ctx, next) => {
   await next()
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
+
+// return
+app.use(async (ctx, next) => {
+  try {
+    ctx.body = {
+      code: 0,
+      message: 'success',
+      success: true,
+      data: await next()
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 1,
+      message: error.message,
+      success: false,
+      data: null
+    }
+  }
 })
 
 // routes

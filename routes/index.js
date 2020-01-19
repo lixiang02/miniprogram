@@ -1,7 +1,15 @@
 const router = require('koa-router')()
+const servers = require('../servers')
+const controllers = require('../controller')
+
+const dealParams = async function (ctx, next) {
+  ctx.params = Object.assign({}, ctx.body, ctx.query, ctx.params)
+  console.log('params -> ', ctx.params)
+  return await next()
+}
 
 router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
+  return await ctx.render('index', {
     title: 'Hello Koa 2!'
   })
 })
@@ -15,5 +23,11 @@ router.get('/json', async (ctx, next) => {
     title: 'koa2 json'
   }
 })
+
+router.get('/db', servers.user.getOne)
+
+router.get('/account/:id', dealParams, controllers.account.getUserAccountsItem)
+
+router.put('/account/:id', dealParams, controllers.account.updateUserAccountItem)
 
 module.exports = router
