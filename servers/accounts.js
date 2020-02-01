@@ -13,7 +13,12 @@ module.exports =  class Container {
     async updateItem({id, money, typeKey, desc, createTime}) {
         return await this.model.findByIdAndUpdate(id, { money, typeKey, desc, createTime })
     }
+
+    async createItem({ money, typeKey, desc, createTime }) {
+        return await this.model.create({ money, typeKey, desc, createTime })
+    }
+
     async deleteItem(params) {
-        return this.model.deleteOne(params, { where: { id: params.id } })
+        return await this.model.deleteOne(params, { where: { id: params.id } })
     }
 }

@@ -1,5 +1,5 @@
 apps:
-  - script   : ./bin/www
+  - script   : yarn start
     name     : 'miniprogram'
     instances: 2
     exec_mode: cluster

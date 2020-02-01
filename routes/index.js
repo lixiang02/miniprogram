@@ -33,4 +33,10 @@ router.get('/account/:id', dealParams, controllers.accounts.getUserAccountsItem)
 
 router.put('/account/:id', dealParams, controllers.accounts.updateUserAccountItem)
 
+router.post('/account', dealParams, controllers.accounts.createUserAccountItem)
+
+router.get('/account/totalMoney/:id', dealParams, controllers.accounts.getUserTotalMoney)
+
+router.get('/account/types', dealParams, controllers.accounts.getTypes)
+
 module.exports = router

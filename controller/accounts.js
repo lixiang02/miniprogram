@@ -16,3 +16,16 @@ exports.getUserAccountsItem = async ctx => {
 exports.updateUserAccountItem = async ({ params }) => {
     return await servers.accounts.updateItem(params)
 }
+
+exports.createUserAccountItem = async ({ params }) => {
+    return await servers.accounts.createItem(params)
+}
+
+exports.getUserTotalMoney = async ({ params }) => {
+    const all = await servers.accounts.getList()
+    return  all.map(e => e.money).reduce((a,b) => a + b)
+}
+
+exports.getTypes = async () => {
+    return await servers.types.getList()
+}
