@@ -1,30 +1,23 @@
 Arguments: 
-  /Users/lixiang/.nvm/versions/node/v10.16.0/bin/node /Users/lixiang/.nvm/versions/node/v10.16.0/bin/yarn add mongoose
+  /root/.nvm/versions/node/v13.1.0/bin/node /root/.yarn/bin/yarn.js
 
 PATH: 
-  /Users/lixiang/.nvm/versions/node/v10.16.0/bin:/Users/lixiang/.yarn/bin:/Users/lixiang/.config/yarn/global/node_modules/.bin:/Users/lixiang/works/mongodb/mongodb-osx-x86_64-3.6.14-17-g3db787d/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/lixiang/.nvm/versions/node/v10.16.0/bin:/Users/lixiang/.yarn/bin:/Users/lixiang/.config/yarn/global/node_modules/.bin:/Users/lixiang/works/mongodb/mongodb-osx-x86_64-3.6.14-17-g3db787d/bin
+  /root/.yarn/bin:/root/.config/yarn/global/node_modules/.bin:/root/.nvm/versions/node/v13.1.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/tar/mongodb/bin:/root/bin
 
 Yarn version: 
-  1.16.0
+  1.19.1
 
 Node version: 
-  10.16.0
+  13.1.0
 
 Platform: 
-  darwin x64
+  linux x64
 
 Trace: 
-  Error: http://192.168.200.178:4873/mongoose/-/mongoose-5.7.11.tgz: Request failed "500 Internal Server Error"
-      at ResponseError.ExtendableBuiltin (/Users/lixiang/.nvm/versions/node/v10.16.0/lib/node_modules/yarn/lib/cli.js:696:66)
-      at new ResponseError (/Users/lixiang/.nvm/versions/node/v10.16.0/lib/node_modules/yarn/lib/cli.js:802:124)
-      at Request.<anonymous> (/Users/lixiang/.nvm/versions/node/v10.16.0/lib/node_modules/yarn/lib/cli.js:66161:16)
-      at Request.emit (events.js:198:13)
-      at Request.module.exports.Request.onRequestResponse (/Users/lixiang/.nvm/versions/node/v10.16.0/lib/node_modules/yarn/lib/cli.js:130467:10)
-      at ClientRequest.emit (events.js:203:15)
-      at HTTPParser.parserOnIncomingClient [as onIncoming] (_http_client.js:556:21)
-      at HTTPParser.parserOnHeadersComplete (_http_common.js:109:17)
-      at Socket.socketOnData (_http_client.js:442:20)
-      at Socket.emit (events.js:198:13)
+  Error: http://192.168.200.178:4873/koa/-/koa-2.8.2.tgz: ETIMEDOUT
+      at Timeout._onTimeout (/root/.yarn/lib/cli.js:141224:19)
+      at listOnTimeout (internal/timers.js:531:17)
+      at processTimers (internal/timers.js:475:7)
 
 npm manifest: 
   {
@@ -44,11 +37,14 @@ npm manifest:
       "koa-json": "^2.0.2",
       "koa-logger": "^3.2.0",
       "koa-onerror": "^4.1.0",
+      "koa-qs": "^2.0.0",
       "koa-router": "^7.4.0",
       "koa-static": "^5.0.0",
       "koa-views": "^6.2.0",
-      "mongoose": "^5.7.4",
-      "pug": "^2.0.3"
+      "moment": "^2.24.0",
+      "mongoose": "^5.7.11",
+      "pug": "^2.0.3",
+      "query-strings-parser": "^2.1.3"
     },
     "repository": {
       "type": "git",
@@ -1327,9 +1323,9 @@ Lockfile:
       promise "^7.0.1"
   
   kareem@2.3.1:
-    version "2.3.0"
-    resolved "http://192.168.200.178:4873/kareem/-/kareem-2.3.0.tgz#ef33c42e9024dce511eeaf440cd684f3af1fc769"
-    integrity sha1-7zPELpAk3OUR7q9EDNaE868fx2k=
+    version "2.3.1"
+    resolved "http://192.168.200.178:4873/kareem/-/kareem-2.3.1.tgz#def12d9c941017fabfb00f873af95e9c99e1be87"
+    integrity sha512-l3hLhffs9zqoDe8zjmb/mAN4B8VT3L56EUvKNqLFVs9YlFA+zx7ke1DO8STAdDyYNkeSo1nKmjuvQeI12So8Xw==
   
   keygrip@~1.0.3:
     version "1.0.3"
@@ -1418,6 +1414,14 @@ Lockfile:
     dependencies:
       escape-html "^1.0.3"
       stream-wormhole "^1.1.0"
+  
+  koa-qs@^2.0.0:
+    version "2.0.0"
+    resolved "http://192.168.200.178:4873/koa-qs/-/koa-qs-2.0.0.tgz#18d16b43508a541f092e514351dc09563a48819f"
+    integrity sha1-GNFrQ1CKVB8JLlFDUdwJVjpIgZ8=
+    dependencies:
+      merge-descriptors "~0.0.2"
+      qs "~2.3.3"
   
   koa-router@^7.4.0:
     version "7.4.0"
@@ -1551,6 +1555,16 @@ Lockfile:
     resolved "http://192.168.200.178:4873/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
     integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
   
+  memory-pager@^1.0.2:
+    version "1.5.0"
+    resolved "http://192.168.200.178:4873/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
+    integrity sha1-2HUWVdItOEaCdByXLyw9bfo+ZrU=
+  
+  merge-descriptors@~0.0.2:
+    version "0.0.2"
+    resolved "http://192.168.200.178:4873/merge-descriptors/-/merge-descriptors-0.0.2.tgz#c36a52a781437513c57275f39dd9d317514ac8c7"
+    integrity sha1-w2pSp4FDdRPFcnXzndnTF1FKyMc=
+  
   methods@^1.0.1:
     version "1.1.2"
     resolved "http://192.168.200.178:4873/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
@@ -1642,28 +1656,35 @@ Lockfile:
     dependencies:
       minimist "0.0.8"
   
-  mongodb@3.3.2:
-    version "3.3.2"
-    resolved "http://192.168.200.178:4873/mongodb/-/mongodb-3.3.2.tgz#ff086b5f552cf07e24ce098694210f3d42d668b2"
-    integrity sha1-/whrX1Us8H4kzgmGlCEPPULWaLI=
+  moment@^2.24.0:
+    version "2.24.0"
+    resolved "http://192.168.200.178:4873/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+    integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+  
+  mongodb@3.3.4:
+    version "3.3.4"
+    resolved "http://192.168.200.178:4873/mongodb/-/mongodb-3.3.4.tgz#f52eec4a04005101e63715d4d1f67bf784fa0aef"
+    integrity sha512-6fmHu3FJTpeZxacJcfjUGIP3BSteG0l2cxLkSrf1nnnS1OrlnVGiP9P/wAC4aB6dM6H4vQ2io8YDjkuPkje7AA==
     dependencies:
       bson "^1.1.1"
       require_optional "^1.0.1"
       safe-buffer "^5.1.2"
+    optionalDependencies:
+      saslprep "^1.0.0"
   
   mongoose-legacy-pluralize@1.0.2:
     version "1.0.2"
     resolved "http://192.168.200.178:4873/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
     integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
   
-  mongoose@^5.7.4:
-    version "5.7.4"
-    resolved "http://192.168.200.178:4873/mongoose/-/mongoose-5.7.4.tgz#b6a77a9217dace917ab028fa5dc72f400f2faf4b"
-    integrity sha512-IgqQS5HIaZ8tG2cib6QllfIw2Wc/A0QVOsdKLsSqRolqJFWOjI0se3vsKXLNkbEcuJ1xziW3e/jPhBs65678Hg==
+  mongoose@^5.7.11:
+    version "5.7.11"
+    resolved "http://192.168.200.178:4873/mongoose/-/mongoose-5.7.11.tgz#74a1293deb7a69d41abd447056f5d522e28bab64"
+    integrity sha512-KpXGBTXQTKfTlePpZMY+FBsk9wiyp2gzfph9AsLPfWleK1x2GJY+6xpKx2kKIgLustgNq16OOrqwlAOGUbv3kg==
     dependencies:
       bson "~1.1.1"
       kareem "2.3.1"
-      mongodb "3.3.2"
+      mongodb "3.3.4"
       mongoose-legacy-pluralize "1.0.2"
       mpath "0.6.0"
       mquery "3.2.2"
@@ -1679,9 +1700,9 @@ Lockfile:
     integrity sha1-qpIgKfyk8PZB82DnTFwbakxHB44=
   
   mquery@3.2.2:
-    version "3.2.1"
-    resolved "http://192.168.200.178:4873/mquery/-/mquery-3.2.1.tgz#8b059a49cdae0a8a9e804284ef64c2f58d3ac05d"
-    integrity sha1-iwWaSc2uCoqegEKE72TC9Y06wF0=
+    version "3.2.2"
+    resolved "http://192.168.200.178:4873/mquery/-/mquery-3.2.2.tgz#e1383a3951852ce23e37f619a9b350f1fb3664e7"
+    integrity sha512-XB52992COp0KP230I3qloVUbkLUxJIu328HBP2t2EsxSFtf4W1HPSOBWOXf1bqxK4Xbb66lfMJ+Bpfd9/yZE1Q==
     dependencies:
       bluebird "3.5.1"
       debug "3.1.0"
@@ -2131,6 +2152,16 @@ Lockfile:
     resolved "http://192.168.200.178:4873/qs/-/qs-6.9.0.tgz#d1297e2a049c53119cb49cca366adbbacc80b409"
     integrity sha512-27RP4UotQORTpmNQDX8BHPukOnBP3p1uUJY5UnDhaJB+rMt9iMsok724XL+UHU23bEFOHRMQ2ZhI99qOWUMGFA==
   
+  qs@~2.3.3:
+    version "2.3.3"
+    resolved "http://192.168.200.178:4873/qs/-/qs-2.3.3.tgz#e9e85adbe75da0bbe4c8e0476a086290f863b404"
+    integrity sha1-6eha2+ddoLvkyOBHaghikPhjtAQ=
+  
+  query-strings-parser@^2.1.3:
+    version "2.1.3"
+    resolved "http://192.168.200.178:4873/query-strings-parser/-/query-strings-parser-2.1.3.tgz#33c7bd3828ad8d9f6979681262859b5eea54fdaa"
+    integrity sha512-o0VI7B+Mg+jPwLjcZCUfH5IBPOoxFd0ZwD9MwAHVIkL4OWmgV1dAThqAw7TcYGzzAv3Mbc6mHicv+qRdAxyHiA==
+  
   raw-body@^2.3.3:
     version "2.4.1"
     resolved "http://192.168.200.178:4873/raw-body/-/raw-body-2.4.1.tgz#30ac82f98bb5ae8c152e67149dac8d55153b168c"
@@ -2295,6 +2326,13 @@ Lockfile:
     resolved "http://192.168.200.178:4873/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
     integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
   
+  saslprep@^1.0.0:
+    version "1.0.3"
+    resolved "http://192.168.200.178:4873/saslprep/-/saslprep-1.0.3.tgz#4c02f946b56cf54297e347ba1093e7acac4cf226"
+    integrity sha1-TAL5RrVs9UKX40e6EJPnrKxM8iY=
+    dependencies:
+      sparse-bitfield "^3.0.3"
+  
   sax@^1.2.4:
     version "1.2.4"
     resolved "http://192.168.200.178:4873/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
@@ -2424,6 +2462,13 @@ Lockfile:
     version "0.6.1"
     resolved "http://192.168.200.178:4873/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
     integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+  
+  sparse-bitfield@^3.0.3:
+    version "3.0.3"
+    resolved "http://192.168.200.178:4873/sparse-bitfield/-/sparse-bitfield-3.0.3.tgz#ff4ae6e68656056ba4b3e792ab3334d38273ca11"
+    integrity sha1-/0rm5oZWBWuks+eSqzM004JzyhE=
+    dependencies:
+      memory-pager "^1.0.2"
   
   split-string@^3.0.1, split-string@^3.0.2:
     version "3.1.0"
