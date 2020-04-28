@@ -1,5 +1,8 @@
-const accounts = require('./accounts')
-
-module.exports = {
-    accounts
+class Controller {
+    getController (name) {
+        return require(`./${name}`)
+    }
 }
+
+module.exports = new Controller()
+

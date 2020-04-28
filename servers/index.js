@@ -1,9 +1,17 @@
-const User = require('./user')
-const Types = require('./types')
-const Accounts = require('./accounts')
 
-module.exports = {
-    user: new User(),
-    types: new Types(),
-    accounts: new Accounts()
+class Servers {
+    getDb (name) {
+        return new require(`./${name}`)()
+    }
+    getCloudDb() {
+        return require('./servers/db')
+    }
+    getFile() {
+        return require('./servers/file')
+    }
+    getFunc() {
+        return require('./servers/func')
+    }
 }
+
+module.exports = new Servers()

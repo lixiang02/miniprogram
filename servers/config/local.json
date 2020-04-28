@@ -1,0 +1,7 @@
+{
+    "grant_type": "client_credential",
+    "appid": "wxcedc30de09356619",
+    "secret": "08a2035f386a3a3cf09c0a81cc2c1f58",
+    "env": "dev-drelb",
+    "BaseUrl": "https://api.weixin.qq.com"
+}
