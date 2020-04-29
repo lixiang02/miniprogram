@@ -1,5 +1,7 @@
 const servers = require('../servers')
 const controllers = require('../controller')
+const common = require('../lib/common')
+const imageTypes = common.imageTypes || {}
 
 class Controller {
     constructor(name) {
@@ -100,10 +102,12 @@ class Controller {
 
         let [
             result,
-            types
+            types,
+            images
         ] = await Promise.all([
             servers.getCloudDb().selectItem({ dbName: this.dbName, id: params.id }),
-            controllers.getController('types').getAllList()
+            controllers.getController('types').getAllList(),
+            controllers.getController('images').getAllList({ params: { type: imageTypes.list } })
         ])
         if (result.errcode !== 0) {
             throw new Error(result)
@@ -118,7 +122,11 @@ class Controller {
             } catch (error) {
             }
         }
+        if (params.only) {
+            return result
+        }
         result.types = types || []
+        result.images = images || []
 
         if (result.typeId) {
             const item = types.find(e => e._id === result.typeId)
@@ -126,8 +134,8 @@ class Controller {
         }
         
         // 获取图片链接
-        const files = await servers.getFile().batchDownloadFile([result.fileId])
-        result.url = files[0] && files[0].download_url ? files[0].download_url : ''
+        const imageData = images.find(e => e._id === result.imageId)
+        result.url = imageData && imageData.url ? imageData.url : ''
         
         return result
     }
@@ -137,8 +145,7 @@ class Controller {
         console.log('--params--', params)
         if (params.id) { throw new Error('FAIL PARAMS ID') }
 
-        const query = `db.collection(\'${this.dbName}\').add({ data: ${JSON.stringify(params)} })`
-        let result = await servers.getCloudDb().add({ query })
+        let result = await servers.getCloudDb().add({ dbName: this.dbName, data: params  })
         if (result.errcode !== 0) {
             throw new Error(result)
         }
@@ -151,10 +158,10 @@ class Controller {
         if (!params.id) { throw new Error('NOT FOUND ID') }
 
         // 获取详情信息
-        await this.getDetail(ctx)
+        params.only = true
+        const data = await this.getDetail(ctx)
 
-        const query = `db.collection(\'${this.dbName}\').doc(\'${params.id}\').set({ data: ${JSON.stringify(params)}})`
-        let result = await servers.getCloudDb().update({ query })
+        let result = await servers.getCloudDb().update({ dbName: this.dbName, id: params.id, data: Object.assign({}, data, params) })
         if (result.errcode !== 0) {
             throw new Error(result)
         }
@@ -166,8 +173,11 @@ class Controller {
         console.log('--params--', params)
         if (!params.id) { throw new Error('NOT FOUND ID') }
 
-        const query = `db.collection(\'${this.dbName}\').doc(\'${params.id}\').remove()`
-        return await servers.getCloudDb().delete({ query })
+        // 获取详情信息
+        params.only = true
+        await this.getDetail(ctx)
+
+        return await servers.getCloudDb().delete({ dbName: this.dbName, id: params.id })
     }
 }
 

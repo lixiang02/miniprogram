@@ -76,8 +76,7 @@ class Controller {
         console.log('--params--', params)
         if (params.id) { throw new Error('FAIL PARAMS ID') }
 
-        const query = `db.collection(\'${this.dbName}\').add({ data: ${JSON.stringify(params)} })`
-        let result = await servers.getCloudDb().add({ query })
+        let result = await servers.getCloudDb().add({ dbName: this.dbName, data: params })
         if (result.errcode !== 0) {
             throw new Error(result)
         }
@@ -89,8 +88,7 @@ class Controller {
         console.log('--params--', params)
         if (!params.id) { throw new Error('NOT FOUND ID') }
 
-        const query = `db.collection(\'${this.dbName}\').doc(\'${params.id}\').set({ data: ${JSON.stringify(params)}})`
-        let result = await servers.getCloudDb().update({ query })
+        let result = await servers.getCloudDb().update({ dbName: this.dbName, id: params.id, data: params })
         if (result.errcode !== 0) {
             throw new Error(result)
         }
@@ -102,8 +100,7 @@ class Controller {
         console.log('--params--', params)
         if (!params.id) { throw new Error('NOT FOUND ID') }
 
-        const query = `db.collection(\'${this.dbName}\').doc(\'${params.id}\').remove()`
-        return await servers.getCloudDb().delete({ query })
+        return await servers.getCloudDb().delete({ dbName: this.dbName, id: params.id })
     }
 }
 

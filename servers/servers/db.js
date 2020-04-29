@@ -8,6 +8,7 @@ class DbServer extends TokenServer {
         super()
         this.get = '.get()'
         this.count = '.count()'
+        this.remove = '.remove()'
     }
     async requestBase({ url='', method='get', query='' }) {
         const { access_token } = await this.getAccessToken()
@@ -35,6 +36,7 @@ class DbServer extends TokenServer {
             query = this.getDBQuery(dbName)
             query += this.getDocs(ids)
             query += this.getWhereQuery(where)
+            query += this.getOrder()
             query += this.getPager(limit, offset)
             query += this.get
         }
@@ -121,7 +123,13 @@ class DbServer extends TokenServer {
         }
     }
 
-    async update({ query }) {
+    async update({ query, dbName, id, data }) {
+        if (dbName) {
+            if (data && typeof data === 'object') { data.updateTime = Date.now() }
+            query = this.getDBQuery(dbName)
+            query += this.getDoc(id)
+            query += this.getUpdate(data)
+        }
         return await this.requestBase({ 
             url: '/tcb/databaseupdate',
             query,// "db.collection(\"geo\").where({age:14}).update({data:{age: _.inc(1)}})"
@@ -129,7 +137,12 @@ class DbServer extends TokenServer {
         });
     }
 
-    async delete({ query }) {
+    async delete({ query, dbName, id }) {
+        if (dbName) {
+            query = this.getDBQuery(dbName)
+            query += this.getDoc(id)
+            query += this.remove
+        }
         return await this.requestBase({ 
             url: '/tcb/databasedelete',
             query,//  "db.collection(\"geo\").where({done:false}).remove()"
@@ -137,7 +150,12 @@ class DbServer extends TokenServer {
         });
     }
 
-    async add({ query }) {
+    async add({ query, dbName, data }) {
+        if (dbName) {
+            if (data && typeof data === 'object') { data.createTime = Date.now() }
+            query = this.getDBQuery(dbName)
+            query += this.getAdd(data)
+        }
         return await this.requestBase({ 
             url: '/tcb/databaseadd',
             query,
@@ -212,8 +230,17 @@ class DbServer extends TokenServer {
     getDoc(id) {
         return id ? `.doc(\'${id}\')` : ''
     }
+    getAdd(data) {
+        return `.add({ data: ${JSON.stringify([data])} })`
+    }
+    getUpdate(data) {
+        return data && typeof data === 'object' ? `.set({ data: ${JSON.stringify(data)}})` : ''
+    }
     getDocs(ids) {
         return ids && ids.length > 0 ? `.where({ _id: _.in(${JSON.stringify(ids)}) })` : ''
+    }
+    getOrder(key='createTime', order='desc') {
+        return `.orderBy(\'${key}\', \'${order}\')`
     }
 }
 

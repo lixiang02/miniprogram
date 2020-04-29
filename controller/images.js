@@ -1,7 +1,8 @@
 const servers = require('../servers')
 const fileServer = require('../lib/file')
+const common = require('../lib/common')
 
-const imageTypes = new Set(['list', 'banner', 'cover', 'detail'])
+const imageTypes = new Set(Object.keys(common.imageTypes))
 
 class Controller {
     constructor(name) {
@@ -165,8 +166,7 @@ class Controller {
         }
 
         const type = params.type && imageTypes.has(params.type) ? params.type : ''
-        const query = `db.collection(\'${this.dbName}\').add({ data: ${JSON.stringify([{ type, fileId, name: params.name || '', size }])} })`
-        let result = await servers.getCloudDb().add({ query })
+        let result = await servers.getCloudDb().add({ dbName: this.dbName, data: { type, fileId, name: params.name || '', size } })
         if (result.errcode !== 0) {
             throw new Error(result)
         }
@@ -185,8 +185,7 @@ class Controller {
         // 只允许更新类型，文件不允许更新，只可以添加删除， 你品，你细品
         const type = params.type && imageTypes.has(params.type) ? params.type : ''
 
-        const query = `db.collection(\'${this.dbName}\').doc(\'${params.id}\').set({ data: ${JSON.stringify(Object.assign({}, data, { type }))}})`
-        let result = await servers.getCloudDb().update({ query })
+        let result = await servers.getCloudDb().update({ dbName: this.dbName, id: params.id, data: Object.assign({}, data, { type }) })
         if (result.errcode !== 0) {
             throw new Error(result)
         }
@@ -205,7 +204,7 @@ class Controller {
         // 验证产品是否使用该数据，要求使用就不可以被删除
         if (data.fileId) {
             const countData = await servers.getCloudDb().getCount({ 
-                dbName: 'product',
+                dbName: 'images',
                 where: { fileId: data.fileId }
             })
             if (countData.count > 0) {
@@ -216,8 +215,7 @@ class Controller {
             await servers.getFile().batchDeleteFile([data.fileId])
         }
 
-        const query = `db.collection(\'${this.dbName}\').doc(\'${params.id}\').remove()`
-        return await servers.getCloudDb().delete({ query })
+        return await servers.getCloudDb().delete({ dbName: this.dbName, id: params.id })
     }
 
     async uploadFiles(filesData) {

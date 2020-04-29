@@ -64,6 +64,7 @@ app.use(async (ctx, next) => {
       data: await next()
     };
   } catch (error) {
+    console.log('Request Error', error.stack)
     ctx.body = {
       code: 1,
       message: error.stack,
