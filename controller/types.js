@@ -1,4 +1,5 @@
 const servers = require('../servers')
+const common = require('../lib/common')
 
 class Controller {
     constructor(name) {
@@ -104,5 +105,5 @@ class Controller {
     }
 }
 
-module.exports = new Controller('types')
+module.exports = new Controller(common.dbNames.types)
 

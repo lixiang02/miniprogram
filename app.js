@@ -7,7 +7,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const koaBody = require('koa-body')
 
-require('./lib/mongodb')
+// require('./lib/mongodb')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -29,7 +29,7 @@ app.use(json())
 app.use(logger())
 app.use(async (ctx, next) => {
   ctx.set('Access-Control-Allow-Origin', '*');
-  ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   ctx.set('Access-Control-Allow-Headers', '*');
   ctx.set('Access-Control-Allow-Credentials', true);
   ctx.set('Access-Control-Max-Age', 1728000);

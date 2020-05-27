@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const servers = require('../servers')
 const controllers = require('../controller')
 const common = require('../lib/common')
@@ -6,6 +7,16 @@ const imageTypes = common.imageTypes || {}
 class Controller {
     constructor(name) {
         this.dbName = name
+        this.schemas = [
+            'commentCount',
+            'desc',
+            'imageId',
+            'name',
+            'price',
+            'realPrice',
+            'sellCount',
+            'typeId'
+        ]
     }
     async getList (ctx) {
         const params = ctx.params
@@ -25,7 +36,7 @@ class Controller {
                 limit: params.limit > 0 ? params.limit : 100,
                 offset: params.offset > 0 ? params.offset: 0
             }),
-            controllers.getController('types').getAllList()
+            controllers.getController(common.cNames.types).getAllList()
         ])
         if (result.errcode !== 0) {
             throw new Error(`Fail GET CLOUD DB`)
@@ -46,7 +57,7 @@ class Controller {
             })
         
             // 获取图片链接
-            const imageData = await controllers.getController('images').getAllListByIds(result.data.map(e => e.imageId))
+            const imageData = await controllers.getController(common.cNames.images).getAllListByIds(result.data.map(e => e.imageId))
             const urlSet = new Map(imageData.filter(e=>e.url).map(e => [e._id, e]))
             result.data.map(item => {
                 const urlData = urlSet.get(item.imageId)
@@ -83,7 +94,7 @@ class Controller {
             })
                     
             // 获取图片链接
-            const imageData = await controllers.getController('images').getAllListByIds(result.data.map(e => e.imageId))
+            const imageData = await controllers.getController(common.cNames.images).getAllListByIds(result.data.map(e => e.imageId))
             const urlSet = new Map(imageData.filter(e=>e.url).map(e => [e._id, e]))
             result.data.map(item => {
                 const urlData = urlSet.get(item.imageId)
@@ -97,17 +108,19 @@ class Controller {
 
     async getDetail (ctx) {
         const params = ctx.params
-        console.log('-params---', params)
+        console.log('getDetail:params:', params)
         if (!params.id) { throw new Error('NOT FOUND ID') }
 
         let [
             result,
+            detail,
             types,
             images
         ] = await Promise.all([
             servers.getCloudDb().selectItem({ dbName: this.dbName, id: params.id }),
-            controllers.getController('types').getAllList(),
-            controllers.getController('images').getAllList({ params: { type: imageTypes.list } })
+            controllers.getController(common.cNames.productDetail).getDetail(params.id),
+            controllers.getController(common.cNames.types).getAllList(),
+            controllers.getController(common.cNames.images).getAllList({ params: { type: imageTypes.list } })
         ])
         if (result.errcode !== 0) {
             throw new Error(result)
@@ -121,6 +134,10 @@ class Controller {
                 result = JSON.parse(result)
             } catch (error) {
             }
+        }
+        if (detail) {
+            result.detail = detail
+            Object.assign(result, _.pick(detail, controllers.getController(common.cNames.productDetail).schemas))
         }
         if (params.only) {
             return result
@@ -136,35 +153,49 @@ class Controller {
         // 获取图片链接
         const imageData = images.find(e => e._id === result.imageId)
         result.url = imageData && imageData.url ? imageData.url : ''
-        
+        const coverData = images.find(e => e._id === result.coverId)
+        result.coverUrl = coverData && coverData.url ? coverData.url : ''
+
         return result
     }
 
     async addDetail (ctx) {
+        console.log('addDetail:params:', params)
         const params = ctx.params
-        console.log('--params--', params)
         if (params.id) { throw new Error('FAIL PARAMS ID') }
 
-        let result = await servers.getCloudDb().add({ dbName: this.dbName, data: params  })
+        let [
+            result,
+            detailResult
+        ] = await Promise.all([
+            servers.getCloudDb().add({ dbName: this.dbName, data: _.pick(params, this.schemas) }),
+            controllers.getController(common.cNames.productDetail).add(params.id, params)
+        ])
         if (result.errcode !== 0) {
             throw new Error(result)
         }
+        result.detail = detailResult
         return result
     }
 
     async updateDetail (ctx) {
+        console.log('updateDetail:params:', params)
         const params = ctx.params
-        console.log('--params--', params)
         if (!params.id) { throw new Error('NOT FOUND ID') }
 
         // 获取详情信息
         params.only = true
         const data = await this.getDetail(ctx)
 
-        let result = await servers.getCloudDb().update({ dbName: this.dbName, id: params.id, data: Object.assign({}, data, params) })
+        let [result, detailResult] = await Promise.all([
+            servers.getCloudDb().update({ dbName: this.dbName, id: params.id, data: Object.assign({}, data, params) }),
+            controllers.getController(common.cNames.productDetail).updateDetail(params.id, params)
+        ])
+        
         if (result.errcode !== 0) {
             throw new Error(result)
         }
+        result.detail = detailResult
         return result
     }
 
@@ -181,7 +212,7 @@ class Controller {
     }
 }
 
-module.exports = new Controller('product')
+module.exports = new Controller(common.dbNames.product)
 
 
 

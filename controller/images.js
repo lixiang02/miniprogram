@@ -205,10 +205,12 @@ class Controller {
         if (data.fileId) {
             const countData = await servers.getCloudDb().getCount({ 
                 dbName: 'images',
-                where: { fileId: data.fileId }
+                where: { fileId: data._id }
             })
+
             if (countData.count > 0) {
-                throw new Error('IMAGES BE USED BUY PRODUCT')
+                console.log('fileId: ', data._id, data.fileId)
+                throw new Error('IMAGES BE USED BY PRODUCT')
             }
 
             // 先去删除存储文件
@@ -258,5 +260,5 @@ class Controller {
     }
 }
 
-module.exports = new Controller('images')
+module.exports = new Controller(common.dbNames.images)
 
